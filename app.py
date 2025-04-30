@@ -32,32 +32,6 @@ settings = {
     "presence_penalty": 0,
 }
 
-
-@cl.set_starters
-async def set_starters():
-    return [
-        cl.Starter(
-            label="大模型提高软件测试效率",
-            message="详细介绍如何借助大语言模型提高软件测试效率。",
-            icon="/public/apidog.svg",
-        ),
-        cl.Starter(
-            label="自动化测试思路",
-            message="详细描述一下接口及UI自动化测试的基本思路。",
-            icon="/public/pulumi.svg",
-        ),
-        cl.Starter(
-            label="性能测试分析及瓶颈定位思路",
-            message="详细描述一下软件性能测试分析及瓶颈定位的核心思路。",
-            icon="/public/godot_engine.svg",
-        ),
-        cl.Starter(
-            label="如何学习大模型应用的核心技术",
-            message="给出学习大语言模型的一些重要的技术和方法。",
-            icon="/public/gleam.svg",
-        )
-    ]
-
 @cl.password_auth_callback
 def auth_callback(username: str, password: str) -> Optional[cl.User]:
     if (username, password) == ("zhangjun", "passw0rd"):
@@ -65,8 +39,45 @@ def auth_callback(username: str, password: str) -> Optional[cl.User]:
     else:
         return None
 
+@cl.set_chat_profiles
+async def chat_profile(current_user: cl.User):
+    if current_user.metadata["role"] != "ADMIN":
+        return None
+
+    return [
+        cl.ChatProfile(
+            name="小研",
+            icon="/public/profileimg/XiaoYan2.png",
+            markdown_description="我是您的健康助手小研，我总是在这里，随时准备帮助您。如果您有任何不舒服或者有任何需要，随时告诉我。",
+            starters=[
+                cl.Starter(
+                    label="健康报告",
+                    message="获取我的健康报告。",
+                    icon="/public/idea.svg",
+                ),
+                cl.Starter(
+                    label="聊天解闷",
+                    message="有点无聊，和我聊聊天吧。",
+                    icon="/public/learn.svg",
+                ),
+                cl.Starter(
+                    label="健康知识",
+                    message="给我介绍一些与我有关的健康知识吧。",
+                    icon="/public/learn.svg",
+                ),
+                cl.Starter(
+                    label="寻医问医",
+                    message="我有点不舒服，帮我查查该吃什么药。",
+                    icon="/public/learn.svg",
+                )
+                # TODO 增加健康日程，点击查看日程表等；
+                # TODO 我的健康搭子  -- 社交属性
+            ],
+        )
+    ]
 @cl.on_chat_start
 async def start_chat():
+    #TODO：根据用户选择的助手指定system role提示词
     cl.user_session.set(
         "message_history",
         [
@@ -78,19 +89,24 @@ async def start_chat():
     )
     settings = await cl.ChatSettings(
         [
-            TextInput(id="AgentName", label="Agent Name", initial="AI"),
+            TextInput(id="bloodpress", label="血压", initial="120/90"),
+            TextInput(id="AgentName", label="体温", initial="37.5"),
+            TextInput(id="AgentName", label="血糖", initial="200"),
+            TextInput(id="AgentName", label="血脂", initial="100"),
         ]
     ).send()
     value = settings["AgentName"]
     app_user = cl.user_session.get("user")
-    await cl.Message(content=f"你好呀,{app_user.metadata['nickname']}。今天心情怎么样？", author='Gilfoyle').send()
+
+    #TODO：根据时间、时令等外界条件以及用户选择助手的风格发送问候语
+    #await cl.Message(content=f"你好呀,{app_user.metadata['nickname']}。今天心情怎么样？", author='Gilfoyle').send()
 
 
 
 async def answer_as(name):
     message_history = cl.user_session.get("message_history")
     msg = cl.Message(author=name, content="")
-
+    # TODO：定制助手风格库，与问候语，settings配合使用，后续加上Memeory
     stream = await openai_client.chat.completions.create(
         model=model_name,
         messages=message_history + [{"role": "user", "content": f"speak as {name}"}],
