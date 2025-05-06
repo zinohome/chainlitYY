@@ -1,0 +1,23 @@
+services:
+  crtool:
+    image: "tls/crtool:v0.1.1"
+    container_name: crtool
+    hostname: crtool
+    restart: unless-stopped
+    environment:
+      LANG: "zh_CN"
+      LANGUAGE: "zh_CN"
+      amis_theme: "antd"
+    ports:
+      - "8880:8880/tcp"
+      - "8843:8843/tcp"
+    healthcheck:
+        test: ["CMD", "netstat", "-anp", "|", "grep 8880", "||", "exit 1"]
+        interval: 30s
+        timeout: 5s
+        retries: 5
+    networks:
+      - crtoolnet
+networks:
+  crtoolnet:
+    driver: bridge
