@@ -1,23 +1,13 @@
 services:
-  crtool:
-    image: "tls/crtool:v0.1.1"
-    container_name: crtool
-    hostname: crtool
+  ChainlitYY:
+    image: "zinohome/chainlityy:v0.0.1"
+    container_name: ChainlitYY
+    hostname: ChainlitYY
     restart: unless-stopped
-    environment:
-      LANG: "zh_CN"
-      LANGUAGE: "zh_CN"
-      amis_theme: "antd"
     ports:
-      - "8880:8880/tcp"
-      - "8843:8843/tcp"
-    healthcheck:
-        test: ["CMD", "netstat", "-anp", "|", "grep 8880", "||", "exit 1"]
-        interval: 30s
-        timeout: 5s
-        retries: 5
+      - "8000:8000/tcp"
     networks:
-      - crtoolnet
+      - 1panel-network
 networks:
-  crtoolnet:
-    driver: bridge
+  1panel-network:
+    external: true
