@@ -14,5 +14,5 @@ git pull && \
 virtualenv venv && \
 . venv/bin/activate && \
 pip install -r requirements.txt && \
-cp /opt/crtool/docker/bd_build/50_start_h.sh /etc/my_init.d/50_start_h.sh &&
+cp /opt/chainlitYY/docker/bd_build/50_start_h.sh /etc/my_init.d/50_start_h.sh &&
 chmod 755 /etc/my_init.d/50_start_h.sh
