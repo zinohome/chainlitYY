@@ -8,8 +8,8 @@ apt install -y software-properties-common  && add-apt-repository -y ppa:deadsnak
 rm /usr/bin/python && ln -s /usr/bin/python3.10 /usr/bin/python && \
 python -m pip install virtualenv && \
 cd /opt && \
-git clone https://github.com/zinohome/crtool.git && \
-cd /opt/crtool && \
+git clone https://github.com/zinohome/chainlitYY.git && \
+cd /opt/chainlitYY && \
 git pull && \
 chmod 755 mkcert-v1.4.4-linux-amd64 && mv mkcert-v1.4.4-linux-amd64 mkcert && mv mkcert /usr/bin/ && \
 mkcert -install && \
