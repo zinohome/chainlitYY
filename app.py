@@ -135,7 +135,7 @@ async def on_message(message: cl.Message):
     message_history.append({"role": "user", "content": message.content})
     await answer_as("Anna Bates")
 
-#@cl.step(type="tool", name="语音转文本")
+@cl.step(type="tool", name="语音转文本")
 async def speech_to_text(audio_file):
     '''
     # OpenAI接口
@@ -184,7 +184,7 @@ async def text_to_speech(text: str):
     return response.content
     '''
     # 文本分块
-    text_chunks = [text[i:i + 140] for i in range(0, len(text), 140)]
+    text_chunks = [text[i:i + 150] for i in range(0, len(text), 150)]
     log.debug(text_chunks)
     # 初始化完整音频数据
     complete_audio_data = bytearray()
@@ -359,6 +359,7 @@ async def process_audio():
     #await answer_as("Anna Bates")
     answer = await generate_text_answer(transcription)
     log.debug(answer)
+    await cl.Message(content=answer).send()
     output_audio = await text_to_speech(answer)
     #log.debug(output_audio)
     output_audio_el = cl.Audio(
@@ -366,7 +367,7 @@ async def process_audio():
         mime="audio/wav",
         content=output_audio,
     )
-    await cl.Message(content=answer, elements=[output_audio_el]).send()
+    await cl.Message(content='',elements=[output_audio_el]).send()
 
 
 
