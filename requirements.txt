@@ -1,0 +1,7 @@
+chainlit
+langchain
+langchain_community
+openai
+loguru>=0.7.3
+tencentcloud-sdk-python-asr
+tencentcloud-sdk-python-tts
