@@ -222,7 +222,7 @@ async def text_to_speech(text: str):
             print(f"Error: {err}")
             return None
 
-    tasks = [process_chunk(text_chunk) for text_chunk in text_chunks]
+    tasks = [process_chunk(chunk) for chunk in text_chunks]
     audio_chunks = await asyncio.gather(*tasks)
     # 合并所有音频数据
     for chunk in audio_chunks:
