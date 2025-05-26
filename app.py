@@ -52,7 +52,7 @@ openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY,base_url=OPENAI_BASE_URL)
 #sync_openai_client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 # Instrument the OpenAI client
 cl.instrument_openai()
-model_name = "gpt-3.5-turbo"
+model_name = MODEL_NAME
 settings = {
     "temperature": 0.3,
     "max_tokens": 500,
