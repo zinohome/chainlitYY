@@ -40,6 +40,7 @@ TENCENT_SECRET_ID = os.getenv("TENCENT_SECRET_ID")
 TENCENT_SECRET_KEY = os.getenv("TENCENT_SECRET_KEY")
 SILENCE_THRESHOLD = 3500  # Adjust based on your audio level (e.g., lower for quieter audio)
 SILENCE_TIMEOUT = 1300.0  # Seconds of silence to consider the turn finished
+MODEL_NAME = os.getenv("MODEL_NAME")
 
 if not OPENAI_BASE_URL or not OPENAI_API_KEY:
     raise ValueError(
