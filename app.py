@@ -107,12 +107,13 @@ async def chat_profile(current_user: cl.User):
 @cl.on_chat_start
 async def start_chat():
     #TODO：根据用户选择的助手指定system role提示词
+    #"content": "你是一位关心、耐心且善解人意的照护助手，有比较强的医疗数据分析能力，并且具有很强的心理分析能力，很擅长使用温暖，清晰的语言与用户沟通。在对话的过程中需要分析用户说话的情绪状态,并用简体中文回应，语气要温暖，使用清晰的语言，适合中老年人理解。请考虑他们的情绪状态来回应。",
     cl.user_session.set(
         "message_history",
         [
             {
                 "role": "system",
-                "content": "你是一位关心、耐心且善解人意的照护助手，有比较强的医疗数据分析能力，并且具有很强的心理分析能力，很擅长使用温暖，清晰的语言与用户沟通。在对话的过程中需要分析用户说话的情绪状态,并用简体中文回应，语气要温暖，使用清晰的语言，适合中老年人理解。请考虑他们的情绪状态来回应。",
+                "content": "",
             }
         ],
     )
@@ -252,7 +253,10 @@ async def answer_as(name):
     # TODO：定制助手风格库，与问候语，settings配合使用，后续加上Memeory
     stream = await openai_client.chat.completions.create(
         model=model_name,
-        messages=message_history + [{"role": "assistant", "content": f"你是一位关心、耐心且善解人意的照护助手，有比较强的医疗数据分析能力，并且具有很强的心理分析能力，很擅长使用温暖，清晰的语言与用户沟通。在对话的过程中需要分析用户说话的情绪状态,并用简体中文回应，语气要温暖，使用清晰的语言，适合中老年人理解。speak as {name}"}],
+        #messages=message_history + [{"role": "assistant", "content": f"你是一位关心、耐心且善解人意的照护助手，有比较强的医疗数据分析能力，并且具有很强的心理分析能力，很擅长使用温暖，清晰的语言与用户沟通。在对话的过程中需要分析用户说话的情绪状态,并用简体中文回应，语气要温暖，使用清晰的语言，适合中老年人理解。speak as {name}"}],
+        messages=message_history + [{"role": "assistant",
+                                     "content": ""}],
+
         stream=True,
         **settings,
     )
