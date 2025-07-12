@@ -51,7 +51,7 @@ if not OPENAI_BASE_URL or not OPENAI_API_KEY:
 openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY,base_url=OPENAI_BASE_URL)
 #sync_openai_client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 # Instrument the OpenAI client
-cl.instrument_openai()
+#cl.instrument_openai()
 model_name = MODEL_NAME
 settings = {
     "temperature": 0.3,
@@ -72,7 +72,7 @@ def auth_callback(username: str, password: str) -> Optional[cl.User]:
 async def chat_profile(current_user: cl.User):
     if current_user.metadata["role"] != "ADMIN":
         return None
-
+    '''
     return [
         cl.ChatProfile(
             name="小研",
@@ -97,6 +97,38 @@ async def chat_profile(current_user: cl.User):
                 cl.Starter(
                     label="询医问药",
                     message="我有点不舒服，帮我查查该吃什么药或者该去哪个医院看医生。",
+                    icon="/public/startterimg/doctor.png",
+                )
+                # TODO 增加健康日程，点击查看日程表等；
+                # TODO 我的健康搭子  -- 社交属性
+            ],
+        )
+    ]
+    '''
+    return [
+        cl.ChatProfile(
+            name="小研",
+            icon="/public/profileimg/XiaoYan2.png",
+            markdown_description="我是您的健康助手小研，我总是在这里，随时准备帮助您。我能够为您提供多方面、个性化的服务。",
+            starters=[
+                cl.Starter(
+                    label="健康与养生",
+                    message="给我介绍一些健康和养生方面的知识。",
+                    icon="/public/startterimg/chat.png",
+                ),
+                cl.Starter(
+                    label="文艺与文化生活",
+                    message="退休后如何丰富文艺和文化生活？",
+                    icon="/public/startterimg/report.png",
+                ),
+                cl.Starter(
+                    label="日常生活助手",
+                    message="做我的小助手，陪我聊天解闷。",
+                    icon="/public/startterimg/knowledge.png",
+                ),
+                cl.Starter(
+                    label="新技能学习",
+                    message="退休后我可以学哪些新技能，给我推荐几个吧。",
                     icon="/public/startterimg/doctor.png",
                 )
                 # TODO 增加健康日程，点击查看日程表等；
